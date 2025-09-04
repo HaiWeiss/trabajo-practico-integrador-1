@@ -3,6 +3,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './src/config/connectDB.js';
+import userRouter from './src/routes/user.routes.js';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ const PORT = process.env.PORT || 3312;
 app.get('/', (req, res) => {
   res.send('La ruta esta funcionando ᗜˬᗜ')
 })
+
+app.use("/api/users", userRouter);
 
 app.listen(PORT, async () => {
     await connectDB();
