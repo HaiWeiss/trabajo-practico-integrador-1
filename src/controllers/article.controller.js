@@ -44,6 +44,38 @@ export const getArticleByID = async (req, res) => {
     }
 };
 
+export const getMyArticles = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const articles = await Article.findAll({ where: { user_id: userId } });
+    return res.json(articles);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const getMyArticleByID = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const article = await Article.findOne({
+      where: {
+        id,
+        user_id: userId
+      }
+    });
+
+    if (!article) {
+      return res.status(404).json({ msg: "Artículo no encontrado o no pertenece al usuario" });
+    }
+
+    return res.json(article);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 export const updateArticle = async (req, res) => {
     try {
         const [updated] = await Article.update(req.body, {
