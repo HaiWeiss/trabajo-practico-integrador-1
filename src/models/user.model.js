@@ -1,7 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
 
-
 const User = sequelize.define(
     "users", {
         username: {
@@ -19,7 +18,10 @@ const User = sequelize.define(
             type: DataTypes.ENUM('user', 'admin'),
             defaultValue: 'user'
         }
+    },
+    {
+        paranoid: true
     }
-)
+);
 
 export default User;
