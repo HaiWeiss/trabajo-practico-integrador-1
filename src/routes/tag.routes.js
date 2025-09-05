@@ -16,13 +16,10 @@ import { adminMiddleware } from "../middlewares/admin.middleware.js";
 
 const tagRouter = Router();
 
-// GET /api/tags → usuario autenticado
 tagRouter.get("/", isAuthenticated, getAllTags);
 
-// GET /api/tags/:id → solo admin
 tagRouter.get("/:id", isAuthenticated, adminMiddleware, getTagByID);
 
-// POST, PUT, DELETE → solo admin
 tagRouter.post("/", isAuthenticated, adminMiddleware, [...createTagValidation], validate, createTag);
 tagRouter.put("/:id", isAuthenticated, adminMiddleware, [...updateTagValidation], validate, updateTag);
 tagRouter.delete("/:id", isAuthenticated, adminMiddleware, deleteTag);
