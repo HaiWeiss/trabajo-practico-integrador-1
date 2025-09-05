@@ -3,7 +3,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './src/config/connectDB.js';
-import userRouter from './src/routes/user.routes.js';
+import userRouter from "./src/routes/user.routes.js";
+import articleRouter from "./src/routes/article.routes.js";
+import tagRouter from "./src/routes/tag.routes.js";
+import articleTagRouter from "./src/routes/articleTag.routes.js";
+import authRouter from './src/routes/auth.routes.js';
+
 
 dotenv.config();
 
@@ -20,6 +25,10 @@ app.get('/', (req, res) => {
 })
 
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/articles", articleRouter);
+app.use("/api/tags", tagRouter);
+app.use("/api/article-tags", articleTagRouter);
 
 app.listen(PORT, async () => {
     await connectDB();

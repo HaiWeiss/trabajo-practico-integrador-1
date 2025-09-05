@@ -1,14 +1,23 @@
 import { Router } from "express";
-import { createUser, deleteUser, getAllUsers, getUserByID, updateUser } from "../controllers/user.controller.js";
-import { createUserValidation } from "../middlewares/validations/user.validation.js";
+import { 
+    deleteUser, 
+    getAllUsers, 
+    getUserByID, 
+    updateUser 
+} from "../controllers/user.controller.js";
+import { 
+    updateUserValidation
+} from "../middlewares/validations/user.validation.js";
 import { validate } from "../middlewares/validations/validate.js";
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
+import { adminMiddleware } from "../middlewares/admin.middleware.js";
 
 const userRouter = Router();
 
-userRouter.get("/", getAllUsers);
-userRouter.get("/:id", getUserByID);
-userRouter.post("/", [...createUserValidation], validate, createUser);
-userRouter.put("/:id", updateUser);
-userRouter.delete("/:id", deleteUser);
+
+userRouter.get("/", isAuthenticated, adminMiddleware, getAllUsers);
+userRouter.get("/:id", isAuthenticated, adminMiddleware, getUserByID);
+userRouter.put("/:id", isAuthenticated, adminMiddleware, [...updateUserValidation], validate, updateUser);
+userRouter.delete("/:id", isAuthenticated, adminMiddleware, deleteUser);
 
 export default userRouter;
